@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% block title %}{{ team }}{% endblock %}
+{% block content %}
+    <h3>{{ team }}</h3>
+    <p>
+        {{ team }} was created in {{ team.year }}<br>
+        Their actual formation is {{ team.formation }}
+    </p>
+    <h3>Squad</h3>
+    <p>Coach: {{ coach }}</p>
+    <p>Goalkeepers:</p>
+    <p>
+    <ul class="list-class">
+        {% for player in goalkeepers %}
+            <li>{{ player }}</li>
+        {% endfor %}
+    </ul>
+    </p>
+    <p>Defenders:</p>
+    <p>
+    <ul class="list-class">
+        {% for player in defenders %}
+            <li>{{ player }}</li>
+        {% endfor %}
+    </ul>
+    </p>
+    <p>Midfielders:</p>
+    <p>
+    <ul class="list-class">
+        {% for player in midfielders %}
+            <li>{{ player }}</li>
+        {% endfor %}
+    </ul>
+    </p>
+    <p>Strikers:</p>
+    <p>
+    <ul class="list-class">
+        {% for player in strikers %}
+            <li>{{ player }}</li>
+        {% endfor %}
+    </ul>
+    </p>
+{% endblock %}

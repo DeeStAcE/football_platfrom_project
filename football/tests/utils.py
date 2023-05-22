@@ -1,13 +1,13 @@
 from football.models import Match, League, Team
 
 
-def filter_teams_by_league(league_id):
-    league = League.objects.get(pk=league_id)
+# filter teams by entered league object
+def filter_teams_by_league(league):
     teams = Team.objects.filter(league=league)
     return teams
 
 
-def filter_matches_by_league(league_id):
-    league = League.objects.get(pk=league_id)
+# filter matches by entered league object
+def filter_matches_by_league(league):
     matches = Match.objects.filter(league=league)
     return matches
