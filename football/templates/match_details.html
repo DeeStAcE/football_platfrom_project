@@ -1,0 +1,7 @@
+{% extends 'index.html' %}
+{% block title %}{{ match.team_home }}-{{ match.team_away }}{% endblock %}
+{% block content %}
+<h3>{{ match }}</h3>
+    <p>Referee of the match: {{ match.referee }}</p>
+    <p>The match was taken on: {{ match.date }} in {{ match.league }}</p>
+{% endblock %}

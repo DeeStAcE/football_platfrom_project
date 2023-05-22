@@ -17,7 +17,7 @@
     <h3>Matches</h3>
     <ul class="list-class">
         {% for match in matches %}
-            <li><a class="list-a" href="">{{ match }}</a></li>
+            <li><a class="list-a" href="{% url 'match-details' match.id %}">{{ match }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

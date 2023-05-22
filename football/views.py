@@ -49,3 +49,14 @@ class TeamDetailsView(View):
             'strikers': strikers,
         }
         return render(request, 'team_details.html', context=context)
+
+
+class MatchDetailsView(View):
+
+    # render page with details (referee, date) of chosen match
+    def get(self, request, pk):
+        match = Match.objects.get(pk=pk)
+        context = {
+            'match': match,
+        }
+        return render(request, 'match_details.html', context=context)

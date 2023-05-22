@@ -43,3 +43,14 @@ def test_team_details_get_method_view(client, teams_fixture, players_fixture):
     assert response.context['team'] == team
     assert response.context['coach'] == team.player_set.filter(position='coach').first()
     assert response.context['midfielders'].first() == team.player_set.filter(position='mid').first()
+
+
+# testing status code and context of 'match-details' page
+@pytest.mark.django_db
+def test_match_details_get_method_view(client, matches_fixture):
+    match_obj = 0  # changeable
+    match = matches_fixture[match_obj]
+    url = reverse('match-details', kwargs={'pk': match.id})
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['match'] == match
