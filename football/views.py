@@ -7,12 +7,12 @@ from football.models import *
 class IndexView(View):
 
     def get(self, request):
-        # leagues = League.objects.order_by('name')
         context = {}
         return render(request, 'index.html', context=context)
 
 
 class LeagueDetailsView(View):
+
     def get(self, request, pk):
         league = League.objects.get(pk=pk)
         matches = Match.objects.filter(league=league).order_by('date')

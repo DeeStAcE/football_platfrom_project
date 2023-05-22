@@ -21,6 +21,7 @@ class Team(models.Model):
     year = models.IntegerField()
     league = models.ManyToManyField(League, through='TeamLeague')
     formation = models.ForeignKey(TeamFormation, on_delete=models.SET_NULL, null=True)
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
