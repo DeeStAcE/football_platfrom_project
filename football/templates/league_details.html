@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% block title %}{{ league }}{% endblock %}
+{% block content %}
+    <h3>Actual points</h3>
+    <table>
+        <tr>
+            <th>Team</th>
+            <th>Points</th>
+        </tr>
+        {% for team in teams %}
+            <tr>
+                <td><a class="list-a" href="">{{ team }}</a></td>
+                <td>100</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h3>Matches</h3>
+    <ul class="list-class">
+        {% for match in matches %}
+            <li><a class="list-a" href="">{{ match }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

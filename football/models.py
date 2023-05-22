@@ -30,6 +30,9 @@ class TeamLeague(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     league = models.ForeignKey(League, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.team} -> {self.league}'
+
 
 class Referee(models.Model):
     first_name = models.CharField(max_length=64)

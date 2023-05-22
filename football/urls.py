@@ -3,4 +3,5 @@ from football.views import *
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
+    path('league/<int:pk>', LeagueDetailsView.as_view(), name='league-details'),
 ]
