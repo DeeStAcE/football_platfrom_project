@@ -8,6 +8,7 @@ class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
+    # check if user is in database
     def clean(self):
         cleaned_data = super().clean()
         user = authenticate(**cleaned_data)
@@ -21,6 +22,7 @@ class RegisterForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
     password2 = forms.CharField(widget=forms.PasswordInput, label='Password again')
 
+    # check if both passwords are the same
     def clean(self):
         cleaned_data = super().clean()
         if cleaned_data['password1'] != cleaned_data['password2']:

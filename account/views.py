@@ -7,10 +7,12 @@ from account.forms import LoginForm, RegisterForm
 
 class LoginView(View):
 
+    # render login page
     def get(self, request):
         form = LoginForm()
         return render(request, 'account/form.html', {'form': form})
 
+    # check user's data and log him in if he is in database
     def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -24,6 +26,7 @@ class LoginView(View):
 
 class LogoutView(View):
 
+    # logout user
     def get(self, request):
         logout(request)
         return redirect('index')
@@ -31,10 +34,12 @@ class LogoutView(View):
 
 class RegisterView(View):
 
+    # render register form
     def get(self, request):
         form = RegisterForm()
         return render(request, 'account/form.html', {'form': form})
 
+    # get the data from user's form and create user in database
     def post(self, request):
         form = RegisterForm(request.POST)
         if form.is_valid():
