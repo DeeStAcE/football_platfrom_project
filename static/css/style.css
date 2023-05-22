@@ -1,0 +1,57 @@
+:root {
+    --color-text: #EF1F4D;
+}
+
+.body-class {
+    background-color: #2D2A32;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    height: 100%; /* Full height */
+    position: fixed; /* Make it stick, even on scroll */
+    overflow: auto; /* Enable scrolling if the sidenav has too much content */
+}
+
+.nav-a {
+    display: block;
+    color: var(--color-text);
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 21px;
+}
+
+.nav-a.active {
+    background-color: #9B1C3D;
+    color: var(--color-text);
+}
+
+.nav-a:hover:not(.active) {
+    background-color: #9B1C3D;
+    color: var(--color-text);
+}
+
+.div-class {
+    margin-left: 15%;
+    padding: 1px 16px;
+}
+
+.list-class {
+    list-style-type: none;
+}
+
+.list-a {
+    color: var(--color-text);
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 21px;
+}
+
+.list-a:hover {
+    color: #9B1C3D;
+}
