@@ -9,7 +9,7 @@ class IndexView(View):
     # render main page with menu bar
     def get(self, request):
         context = {}
-        return render(request, 'index.html', context=context)
+        return render(request, 'football/index.html', context=context)
 
 
 class LeagueDetailsView(View):
@@ -25,7 +25,7 @@ class LeagueDetailsView(View):
             'matches': matches,
             'teams': teams,
         }
-        return render(request, 'league_details.html', context=context)
+        return render(request, 'football/league_details.html', context=context)
 
 
 class TeamDetailsView(View):
@@ -48,7 +48,7 @@ class TeamDetailsView(View):
             'midfielders': midfielders,
             'strikers': strikers,
         }
-        return render(request, 'team_details.html', context=context)
+        return render(request, 'football/team_details.html', context=context)
 
 
 class MatchDetailsView(View):
@@ -59,4 +59,4 @@ class MatchDetailsView(View):
         context = {
             'match': match,
         }
-        return render(request, 'match_details.html', context=context)
+        return render(request, 'football/match_details.html', context=context)

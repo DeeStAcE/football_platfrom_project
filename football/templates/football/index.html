@@ -16,6 +16,13 @@
     {% for league in leagues_list %}
         <li><a class="nav-a" href="{% url 'league-details' league.id %}">{{ league }}</a></li>
     {% endfor %}
+    {% if not user.is_authenticated %}
+        <li><a class="nav-a account-class" href="{% url 'login' %}">Login</a></li>
+        <li><a class="nav-a account-class" href="{% url 'register' %}">Register</a></li>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <li><a class="nav-a account-class" href="{% url 'logout' %}">Logout</a></li>
+    {% endif %}
 </ul>
 
 <div class="div-class">
