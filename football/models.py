@@ -52,9 +52,16 @@ class Match(models.Model):
     referee = models.ForeignKey(Referee, on_delete=models.CASCADE)
     league = models.ForeignKey(League, on_delete=models.CASCADE)
     date = models.DateField(auto_now=False, auto_now_add=False)
+    goal_scorers = models.ManyToManyField('Player', through='PlayerGoals')
 
     def __str__(self):
         return f'{self.team_home} {self.team_home_goals} : {self.team_away_goals} {self.team_away}'
+
+
+class PlayerGoals(models.Model):
+    match = models.ForeignKey(Match, on_delete=models.CASCADE)
+    scorer = models.ForeignKey('Player', on_delete=models.CASCADE)
+    goals = models.SmallIntegerField()
 
 
 class Player(models.Model):

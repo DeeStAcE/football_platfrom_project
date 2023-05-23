@@ -5,6 +5,22 @@
         <h2>{{ match }}</h2>
         <p>Referee of the match: {{ match.referee }}</p>
         <p>The match was taken on: {{ match.date }} in {{ match.league }}</p>
+
+        {% if goals %}
+            <table>
+                <tr>
+                    <th>Scorer</th>
+                    <th>Goals</th>
+                </tr>
+                {% for goal in goals %}
+                    <tr>
+                        <td>{{ goal.scorer }}</td>
+                        <td>{{ goal.goals }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
     </section>
     {% include 'football/comments_with_form.html' %}
 

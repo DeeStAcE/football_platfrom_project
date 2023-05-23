@@ -1,4 +1,4 @@
-from football.models import Match, League, Team
+from football.models import Match, League, Team, PlayerGoals
 
 
 # filter teams by entered league object
@@ -17,3 +17,15 @@ def filter_matches_by_league(league):
 def filter_comments_by_match(match):
     comments = match.comment_set.all()
     return comments
+
+
+# filter comments by entered team object
+def filter_comments_by_team(team):
+    comments = team.comment_set.all()
+    return comments
+
+
+# filter goals by entered match object
+def filter_goals_by_match(match):
+    goals = PlayerGoals.objects.filter(match=match)
+    return goals

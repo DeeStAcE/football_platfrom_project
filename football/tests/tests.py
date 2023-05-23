@@ -37,7 +37,7 @@ def test_league_details_get_method_view(client, leagues_fixture, matches_fixture
 
 # testing status code and context of 'team-details' page
 @pytest.mark.django_db
-def test_team_details_get_method_view(client, teams_fixture, players_fixture):
+def test_team_details_get_method_view(client, teams_fixture, players_fixture, team_comments_fixture):
     team_obj = 1  # changeable
     team = teams_fixture[team_obj]
     url = reverse('team-details', kwargs={'pk': team.id})
@@ -46,6 +46,7 @@ def test_team_details_get_method_view(client, teams_fixture, players_fixture):
     assert response.context['team'] == team
     assert response.context['coach'] == team.player_set.filter(position='coach').first()
     assert response.context['midfielders'].first() == team.player_set.filter(position='mid').first()
+    assert response.context['comments'].count() == len(filter_comments_by_team(team))
 
 
 # testing post method of adding new comment for a team
@@ -68,7 +69,7 @@ def test_team_details_post_method_view(client, teams_fixture, user_fixture):
 
 # testing status code and context of 'match-details' page
 @pytest.mark.django_db
-def test_match_details_get_method_view(client, matches_fixture, match_comments_fixture):
+def test_match_details_get_method_view(client, matches_fixture, match_comments_fixture, match_goals_fixture):
     match_obj = 0  # changeable
     match = matches_fixture[match_obj]
     url = reverse('match-details', kwargs={'pk': match.id})
@@ -77,6 +78,7 @@ def test_match_details_get_method_view(client, matches_fixture, match_comments_f
     assert response.context['match'] == match
     assert isinstance(response.context['form'], AddCommentForm)
     assert response.context['comments'].count() == len(filter_comments_by_match(match))
+    assert response.context['goals'].count() == len(filter_goals_by_match(match))
 
 
 # testing post method of adding new comment for a match

@@ -34,12 +34,15 @@ class TeamDetailsView(View):
     # render page with details (info, coach and squad) of chosen team
     def get(self, request, pk):
         team = Team.objects.get(pk=pk)
+
+        # sorting players by position
         players = Player.objects.filter(team=team)
         coach = players.filter(position='coach')
         goalkeepers = players.filter(position='gk').order_by('last_name')
         defenders = players.filter(position='def').order_by('last_name')
         midfielders = players.filter(position='mid').order_by('last_name')
         strikers = players.filter(position='st').order_by('last_name')
+
         form = AddCommentForm()
         comments = team.comment_set.order_by('-date')
 
@@ -75,10 +78,15 @@ class MatchDetailsView(View):
         form = AddCommentForm()
         match = Match.objects.get(pk=pk)
         comments = match.comment_set.order_by('-date')
+
+        # find all goals in current match and order them by goals
+        goals = PlayerGoals.objects.filter(match=match).order_by('-goals')
+
         context = {
             'match': match,
             'form': form,
             'comments': comments,
+            'goals': goals,
         }
         return render(request, 'football/match_details.html', context=context)
 

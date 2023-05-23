@@ -120,3 +120,27 @@ def match_comments_fixture(matches_fixture, user_fixture):
                                       user=user_fixture,
                                       content='example content 2'))
     return lst
+
+
+@pytest.fixture()
+def team_comments_fixture(teams_fixture, user_fixture):
+    lst = []
+    lst.append(Comment.objects.create(team=teams_fixture[0],
+                                      user=user_fixture,
+                                      content='example content 3'))
+    lst.append(Comment.objects.create(team=teams_fixture[0],
+                                      user=user_fixture,
+                                      content='example content 4'))
+    return lst
+
+
+@pytest.fixture()
+def match_goals_fixture(matches_fixture, players_fixture):
+    lst = []
+    lst.append(PlayerGoals.objects.create(match=matches_fixture[0],
+                                          scorer=players_fixture[0],
+                                          goals=3))
+    lst.append(PlayerGoals.objects.create(match=matches_fixture[0],
+                                          scorer=players_fixture[1],
+                                          goals=2))
+    return lst
