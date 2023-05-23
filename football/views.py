@@ -40,8 +40,12 @@ class TeamDetailsView(View):
         defenders = players.filter(position='def').order_by('last_name')
         midfielders = players.filter(position='mid').order_by('last_name')
         strikers = players.filter(position='st').order_by('last_name')
+        form = AddCommentForm()
+        comments = team.comment_set.order_by('-date')
 
         context = {
+            'form': form,
+            'comments': comments,
             'team': team,
             'coach': coach.first(),
             'goalkeepers': goalkeepers,
@@ -50,6 +54,18 @@ class TeamDetailsView(View):
             'strikers': strikers,
         }
         return render(request, 'football/team_details.html', context=context)
+
+    # get cleaned data from valid form and create object Comment
+    def post(self, request, pk):
+        team = Team.objects.get(pk=pk)
+        form = AddCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.team = team
+            comment.save()
+            return redirect('team-details', pk)
+        return redirect('team-details', pk)
 
 
 class MatchDetailsView(View):

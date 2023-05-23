@@ -1,37 +1,11 @@
 {% extends 'football/index.html' %}
 {% block title %}{{ match.team_home }}-{{ match.team_away }}{% endblock %}
 {% block content %}
-    <h2>{{ match }}</h2>
-    <p>Referee of the match: {{ match.referee }}</p>
-    <p>The match was taken on: {{ match.date }} in {{ match.league }}</p>
-
-    {% if user.is_authenticated %}
-        <div class="div-form-comment">
-            <form method="post" class="form-comment">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div>
-                    <button type="submit">Add comment</button>
-                </div>
-            </form>
-        </div>
-    {% endif %}
-
-    <div class="div-comments">
-        <h2>Comments:</h2>
-        {% for comment in comments %}
-            <div class="comment">
-                <p class="p-text-user">Comment by {{ comment.user }}</p>
-                <section>
-                    <p class="p-text-content">
-                        {{ comment.content }}
-                    </p>
-                    <div class="comment-date">
-                        {{ comment.date }}
-                    </div>
-                </section>
-            </div>
-        {% endfor %}
-    </div>
+    <section class="info-section">
+        <h2>{{ match }}</h2>
+        <p>Referee of the match: {{ match.referee }}</p>
+        <p>The match was taken on: {{ match.date }} in {{ match.league }}</p>
+    </section>
+    {% include 'football/comments_with_form.html' %}
 
 {% endblock %}

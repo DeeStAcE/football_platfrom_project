@@ -2,6 +2,10 @@
     --color-text: #EF1F4D;
 }
 
+body {
+    overflow: auto;
+}
+
 .body-class {
     background-color: #2D2A32;
     color: var(--color-text);
@@ -106,9 +110,9 @@ form button[type="submit"]:hover {
 }
 
 .div-form-comment {
-    width: 600px;
     position: fixed;
-    left: 15%;
+    width: 600px;
+    display: flow;
 }
 
 form textarea {
@@ -122,6 +126,8 @@ form textarea {
 .div-comments {
     position: fixed;
     left: 54%;
+    height: 300px;
+    overflow: auto;
 }
 
 .comment {
@@ -140,4 +146,9 @@ form textarea {
 
 .comment-date {
     font-size: 12px;
+}
+
+.info-section {
+    font-size: 18px;
+    position: relative;
 }

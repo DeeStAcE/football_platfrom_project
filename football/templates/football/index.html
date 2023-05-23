@@ -11,8 +11,9 @@
 </head>
 <body class="body-class">
 
-<h3>Leagues</h3>
+
 <ul class="nav-list">
+    <h3>Leagues</h3>
     {% for league in leagues_list %}
         <li><a class="nav-a" href="{% url 'league-details' league.id %}">{{ league }}</a></li>
     {% endfor %}

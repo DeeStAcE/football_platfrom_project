@@ -48,6 +48,24 @@ def test_team_details_get_method_view(client, teams_fixture, players_fixture):
     assert response.context['midfielders'].first() == team.player_set.filter(position='mid').first()
 
 
+# testing post method of adding new comment for a team
+@pytest.mark.django_db
+def test_team_details_post_method_view(client, teams_fixture, user_fixture):
+    team_obj = 1  # changeable
+    team = teams_fixture[team_obj]
+    client.force_login(user_fixture)
+    url = reverse('team-details', kwargs={'pk': team.id})
+    comment_data = {
+        'team': team,
+        'user': user_fixture,
+        'content': 'example content text team'
+    }
+    response = client.post(url, comment_data)
+    assert response.status_code == 302
+    assert response.url.startswith(url)
+    Comment.objects.get(content=comment_data['content'])
+
+
 # testing status code and context of 'match-details' page
 @pytest.mark.django_db
 def test_match_details_get_method_view(client, matches_fixture, match_comments_fixture):
@@ -61,7 +79,7 @@ def test_match_details_get_method_view(client, matches_fixture, match_comments_f
     assert response.context['comments'].count() == len(filter_comments_by_match(match))
 
 
-# testing post method of adding new comment
+# testing post method of adding new comment for a match
 @pytest.mark.django_db
 def test_match_details_post_method_view(client, matches_fixture, user_fixture):
     match_obj = 0  # changeable
@@ -71,7 +89,7 @@ def test_match_details_post_method_view(client, matches_fixture, user_fixture):
     comment_data = {
         'match': match,
         'user': user_fixture,
-        'content': 'example content text'
+        'content': 'example content text match'
     }
     response = client.post(url, comment_data)
     assert response.status_code == 302
