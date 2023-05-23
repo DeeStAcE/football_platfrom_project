@@ -1,7 +1,10 @@
 import pytest
 from django.urls import reverse
 
-from football.tests.utils import filter_teams_by_league, filter_matches_by_league
+from football.forms import AddCommentForm
+from football.models import Comment
+from football.tests.utils import *
+from account.tests.conftest import user_fixture
 
 
 # testing status code and context of main page
@@ -47,10 +50,30 @@ def test_team_details_get_method_view(client, teams_fixture, players_fixture):
 
 # testing status code and context of 'match-details' page
 @pytest.mark.django_db
-def test_match_details_get_method_view(client, matches_fixture):
+def test_match_details_get_method_view(client, matches_fixture, match_comments_fixture):
     match_obj = 0  # changeable
     match = matches_fixture[match_obj]
     url = reverse('match-details', kwargs={'pk': match.id})
     response = client.get(url)
     assert response.status_code == 200
     assert response.context['match'] == match
+    assert isinstance(response.context['form'], AddCommentForm)
+    assert response.context['comments'].count() == len(filter_comments_by_match(match))
+
+
+# testing post method of adding new comment
+@pytest.mark.django_db
+def test_match_details_post_method_view(client, matches_fixture, user_fixture):
+    match_obj = 0  # changeable
+    match = matches_fixture[match_obj]
+    client.force_login(user_fixture)
+    url = reverse('match-details', kwargs={'pk': match.id})
+    comment_data = {
+        'match': match,
+        'user': user_fixture,
+        'content': 'example content text'
+    }
+    response = client.post(url, comment_data)
+    assert response.status_code == 302
+    assert response.url.startswith(url)
+    Comment.objects.get(content=comment_data['content'])

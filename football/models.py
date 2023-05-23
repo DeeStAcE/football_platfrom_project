@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -71,3 +72,11 @@ class Player(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+class Comment(models.Model):
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, null=True)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(null=False)

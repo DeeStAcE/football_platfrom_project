@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
+from football.forms import AddCommentForm
 from football.models import *
 
 
@@ -55,8 +56,24 @@ class MatchDetailsView(View):
 
     # render page with details (referee, date) of chosen match
     def get(self, request, pk):
+        form = AddCommentForm()
         match = Match.objects.get(pk=pk)
+        comments = match.comment_set.order_by('-date')
         context = {
             'match': match,
+            'form': form,
+            'comments': comments,
         }
         return render(request, 'football/match_details.html', context=context)
+
+    # get cleaned data from valid form and create object Comment
+    def post(self, request, pk):
+        match = Match.objects.get(pk=pk)
+        form = AddCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.match = match
+            comment.save()
+            return redirect('match-details', pk)
+        return redirect('match-details', pk)

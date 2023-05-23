@@ -11,3 +11,9 @@ def filter_teams_by_league(league):
 def filter_matches_by_league(league):
     matches = Match.objects.filter(league=league)
     return matches
+
+
+# filter comments by entered match object
+def filter_comments_by_match(match):
+    comments = match.comment_set.all()
+    return comments

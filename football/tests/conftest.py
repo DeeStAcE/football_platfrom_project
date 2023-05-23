@@ -4,6 +4,7 @@ import pytest
 from django.test import Client
 
 from football.models import *
+from account.tests.conftest import user_fixture
 
 
 # create fixture for a Client()
@@ -106,4 +107,16 @@ def players_fixture(teams_fixture):
                                      last_name='lastname7',
                                      team=teams_fixture[0],
                                      position=Player.Position.STRIKER))
+    return lst
+
+
+@pytest.fixture()
+def match_comments_fixture(matches_fixture, user_fixture):
+    lst = []
+    lst.append(Comment.objects.create(match=matches_fixture[0],
+                                      user=user_fixture,
+                                      content='example content 1'))
+    lst.append(Comment.objects.create(match=matches_fixture[0],
+                                      user=user_fixture,
+                                      content='example content 2'))
     return lst
