@@ -21,6 +21,8 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
     password2 = forms.CharField(widget=forms.PasswordInput, label='Password again')
+    email = forms.CharField(widget=forms.EmailInput, label='Email')
+    username = forms.CharField(initial='')  # set the default description of the input to empty string
 
     # check if both passwords are the same
     def clean(self):
@@ -32,6 +34,3 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email']
-        widgets = {
-            'email': forms.EmailInput,
-        }
