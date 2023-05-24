@@ -99,6 +99,13 @@ form button[type="submit"]:hover {
     background-color: #9B1C3D;
 }
 
+form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
 .form-comment {
     margin: 0;
     padding: 0;

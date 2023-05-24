@@ -1,5 +1,12 @@
 {% extends 'football/index.html' %}
 {% block title %}{{ league }}{% endblock %}
+
+{% block add_match %}
+    {% if user.is_authenticated %}
+        <li><a class="nav-a account-class" href="{% url 'add-league-match' league.id %}">Add Match</a></li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <h3>Actual points</h3>
     <table>
@@ -9,7 +16,7 @@
         </tr>
         {% for team in teams %}
             <tr>
-                <td><a class="list-a" href="{% url 'team-details' team.id%}">{{ team }}</a></td>
+                <td><a class="list-a" href="{% url 'team-details' team.id %}">{{ team }}</a></td>
                 <td>{{ team.points }}</td>
             </tr>
         {% endfor %}

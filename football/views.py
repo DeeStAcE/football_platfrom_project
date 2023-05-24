@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django import forms
 
-from football.forms import AddCommentForm
+from football.forms import AddCommentForm, AddLeagueMatchForm, AddLeagueMatchScorersForm
 from football.models import *
 
 
@@ -101,3 +102,53 @@ class MatchDetailsView(View):
             comment.save()
             return redirect('match-details', pk)
         return redirect('match-details', pk)
+
+
+class AddLeagueMatchView(View):
+
+    # render form for adding a new match for a chosen leage
+    def get(self, request, league_pk):
+        league = League.objects.get(pk=league_pk)
+
+        form = AddLeagueMatchForm(league=league)
+        context = {
+            'form': form,
+            'league': league,
+        }
+        return render(request, 'football/match_form.html', context=context)
+
+    # check the form and create object Match
+    def post(self, request, league_pk):
+        league = League.objects.get(pk=league_pk)
+        form = AddLeagueMatchForm(request.POST, league=league)
+        if form.is_valid():
+            match = form.save(commit=False)
+            # form.cleaned_data['team_home'].id
+            match.league = league
+            match.save()
+            return redirect('add-league-match-scorers', league.id, match.id)
+        return redirect('add-league-match', league_pk)
+
+
+class AddLeagueMatchScorersView(View):
+
+    def get(self, request, league_pk, match_pk):
+        match = Match.objects.get(pk=match_pk)
+
+        form = AddLeagueMatchScorersForm(team_home=match.team_home, team_away=match.team_away)
+        context = {
+            'form': form,
+            'match': match,
+        }
+        return render(request, 'football/match_form.html', context=context)
+
+    def post(self, request, league_pk, match_pk):
+        pass
+        # match = Match.objects.get(pk=match_pk)
+        # form = AddLeagueMatchScorersForm(request.POST, team_home=match.team_home, team_away=match.team_away)
+        # if form.is_valid():
+        #     scorer = form.save(commit=False)
+        #     scorer.goals = 1
+        #     scorer.match = match
+        #     scorer.save()
+        #     return redirect('index')
