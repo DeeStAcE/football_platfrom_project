@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views import View
 from django import forms
@@ -124,6 +125,16 @@ class AddLeagueMatchView(View):
         league = League.objects.get(pk=league_pk)
         form = AddLeagueMatchForm(request.POST, league=league)
         if form.is_valid():
+
+            # check if teams are not the same
+            if form.cleaned_data['team_home'] == form.cleaned_data['team_away']:
+                messages.error(request, "The same team can't play against each other")
+                context = {
+                    'form': form,
+                    'league': league,
+                }
+                return render(request, 'football/match_form.html', context=context)
+
             match = form.save(commit=False)
             match.league = league
 
