@@ -3,6 +3,7 @@ from django.views import View
 from django import forms
 
 from football.forms import AddCommentForm, AddLeagueMatchForm, AddLeagueMatchScorersForm
+from football.functions import assign_points_to_winning_team
 from football.models import *
 
 
@@ -20,7 +21,7 @@ class LeagueDetailsView(View):
     def get(self, request, pk):
         league = League.objects.get(pk=pk)
         matches = Match.objects.filter(league=league).order_by('date')
-        teams = Team.objects.filter(league=league)
+        teams = TeamLeague.objects.filter(league=league).order_by('-points')
 
         context = {
             'league': league,
@@ -104,9 +105,10 @@ class MatchDetailsView(View):
         return redirect('match-details', pk)
 
 
+# tests ------------------------------------------------------------------------------------------------------
 class AddLeagueMatchView(View):
 
-    # render form for adding a new match for a chosen leage
+    # render form for adding a new match for a chosen league
     def get(self, request, league_pk):
         league = League.objects.get(pk=league_pk)
 
@@ -123,8 +125,15 @@ class AddLeagueMatchView(View):
         form = AddLeagueMatchForm(request.POST, league=league)
         if form.is_valid():
             match = form.save(commit=False)
-            # form.cleaned_data['team_home'].id
             match.league = league
+
+            # assigning points to the winner
+            team_home = form.cleaned_data['team_home']
+            team_away = form.cleaned_data['team_away']
+            team_home_goals = form.cleaned_data['team_home_goals']
+            team_away_goals = form.cleaned_data['team_away_goals']
+            assign_points_to_winning_team(league, team_home, team_away, team_home_goals, team_away_goals)
+
             match.save()
             return redirect('add-league-match-scorers', league.id, match.id)
         return redirect('add-league-match', league_pk)

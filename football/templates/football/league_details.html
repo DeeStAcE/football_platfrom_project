@@ -16,7 +16,7 @@
         </tr>
         {% for team in teams %}
             <tr>
-                <td><a class="list-a" href="{% url 'team-details' team.id %}">{{ team }}</a></td>
+                <td><a class="list-a" href="{% url 'team-details' team.id %}">{{ team.team }}</a></td>
                 <td>{{ team.points }}</td>
             </tr>
         {% endfor %}

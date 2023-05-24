@@ -45,15 +45,15 @@ def teams_fixture(leagues_fixture, team_formation_fixture):
     lst = []
     team1 = Team.objects.create(name='team1',
                                 year=1999,
-                                formation=team_formation_fixture,
-                                points=15)
+                                formation=team_formation_fixture)
     team1.league.set(leagues_fixture)
+    team1.teamleague_set.get(league=leagues_fixture[0]).points = 15
     lst.append(team1)
     team2 = Team.objects.create(name='team2',
                                 year=1902,
-                                formation=team_formation_fixture,
-                                points=10)
+                                formation=team_formation_fixture)
     team2.league.set(leagues_fixture)
+    team2.teamleague_set.get(league=leagues_fixture[0]).points = 20
     lst.append(team2)
     return lst
 
