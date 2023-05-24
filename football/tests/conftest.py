@@ -139,8 +139,8 @@ def match_goals_fixture(matches_fixture, players_fixture):
     lst = []
     lst.append(PlayerGoals.objects.create(match=matches_fixture[0],
                                           scorer=players_fixture[0],
-                                          goals=3))
+                                          minute=43))
     lst.append(PlayerGoals.objects.create(match=matches_fixture[0],
                                           scorer=players_fixture[1],
-                                          goals=2))
+                                          minute=12))
     return lst

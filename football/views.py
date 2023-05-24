@@ -175,14 +175,17 @@ class AddLeagueMatchScorersView(View):
         scorers_list = []
         minutes_list = []
 
+        # creating two separate lists for players who played as home team and away team
         team_home = [player.id for player in match.team_home.player_set.all()]
         team_home_scorers = []
         team_away = [player.id for player in match.team_away.player_set.all()]
         team_away_scorers = []
 
+        # getting data for every single scorer during the match
         for goal_number in range(1, total_goals + 1):
             scorer = request.POST.get(f"scorer_{goal_number}")
             scorers_list.append(scorer)
+            # creating two separate lists for ids of players who scored a goal for specific team
             if int(scorer) in team_home:
                 team_home_scorers.append(scorer)
             elif int(scorer) in team_away:
@@ -196,11 +199,13 @@ class AddLeagueMatchScorersView(View):
                 return redirect('add-league-match-scorers', league_pk, match_pk)
             minutes_list.append(minute)
 
+        # checking if the number of players is as same as goals for both teams
         if len(team_home_scorers) != home_goals or len(team_away_scorers) != away_goals:
             messages.error(request, """Entered invalid data. The number of scorers for a team does not correspond 
             to the number of this team's goals""")
             return redirect('add-league-match-scorers', league_pk, match_pk)
 
+        # creating as many objects as goals in the match
         for scorer, minute in zip(scorers_list, minutes_list):
             PlayerGoals.objects.create(match=match, scorer_id=scorer, minute=minute)
 
