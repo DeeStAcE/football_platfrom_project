@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -61,7 +62,8 @@ class Match(models.Model):
 class PlayerGoals(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     scorer = models.ForeignKey('Player', on_delete=models.CASCADE)
-    goals = models.SmallIntegerField()
+    goal = models.SmallIntegerField(default=1)
+    minute = models.SmallIntegerField()
 
 
 class Player(models.Model):
