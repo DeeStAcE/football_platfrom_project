@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Q
@@ -106,8 +107,8 @@ class MatchDetailsView(View):
         return redirect('match-details', pk)
 
 
-# tests ------------------------------------------------------------------------------------------------------
-class AddLeagueMatchView(View):
+class AddLeagueMatchView(PermissionRequiredMixin, View):
+    permission_required = ['football.add_match']
 
     # render form for adding a new match for a chosen league
     def get(self, request, league_pk):
@@ -146,7 +147,8 @@ class AddLeagueMatchView(View):
         return render(request, 'football/match_form.html', context=context)
 
 
-class AddLeagueMatchScorersView(View):
+class AddLeagueMatchScorersView(PermissionRequiredMixin, View):
+    permission_required = ['football.add_match']
 
     def get(self, request, league_pk, match_pk):
         match = Match.objects.get(pk=match_pk)
@@ -167,6 +169,7 @@ class AddLeagueMatchScorersView(View):
         }
         return render(request, 'football/match_scorers_form.html', context=context)
 
+    # check the data, create lists and objects if everything is valid
     def post(self, request, league_pk, match_pk):
         match = Match.objects.get(pk=match_pk)
         home_goals = match.team_home_goals

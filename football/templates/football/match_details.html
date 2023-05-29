@@ -14,7 +14,7 @@
                 </tr>
                 {% for goal in goals %}
                     <tr>
-                        <td>{{ goal.scorer }}</td>
+                        <td>{{ goal.scorer }} ({{ goal.scorer.team }})</td>
                         <td>{{ goal.minute }}</td>
                     </tr>
                 {% endfor %}

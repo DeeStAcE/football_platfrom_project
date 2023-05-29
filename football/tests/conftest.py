@@ -104,8 +104,16 @@ def players_fixture(teams_fixture):
                                      team=teams_fixture[0],
                                      position=Player.Position.STRIKER))
     lst.append(Player.objects.create(first_name='name6',
-                                     last_name='lastname7',
+                                     last_name='lastname6',
                                      team=teams_fixture[0],
+                                     position=Player.Position.STRIKER))
+    lst.append(Player.objects.create(first_name='name7',
+                                     last_name='lastname7',
+                                     team=teams_fixture[1],
+                                     position=Player.Position.MIDFIELDER))
+    lst.append(Player.objects.create(first_name='name8',
+                                     last_name='lastname8',
+                                     team=teams_fixture[1],
                                      position=Player.Position.STRIKER))
     return lst
 
