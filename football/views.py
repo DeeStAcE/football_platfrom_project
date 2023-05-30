@@ -19,16 +19,26 @@ class IndexView(View):
 
 class LeagueDetailsView(View):
 
-    # render page with details (teams and matches) of chosen league
+    # render page with details (teams, matches and scorers) of chosen league
     def get(self, request, pk):
         league = League.objects.get(pk=pk)
         matches = Match.objects.filter(league=league).order_by('date')
         teams = TeamLeague.objects.filter(league=league).order_by('-points')
 
+        # collecting data of scored goals by players
+        goals_in_league = PlayerGoals.objects.filter(match__league=league)
+        scorers = {}
+        for goal in goals_in_league:
+            scorers[goal.scorer] = scorers.get(goal.scorer, 0) + 1
+        # sorting goals in descending order
+        scorers = dict(sorted(scorers.items(), key=lambda item: item[1], reverse=True))
+        print(sum(scorers.values()))
+
         context = {
             'league': league,
             'matches': matches,
             'teams': teams,
+            'scorers': scorers,
         }
         return render(request, 'football/league_details.html', context=context)
 

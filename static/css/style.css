@@ -9,7 +9,13 @@ body {
 .body-class {
     background-color: #2D2A32;
     color: var(--color-text);
-    margin: 0;
+    margin-top: 10px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .nav-list {
@@ -62,6 +68,11 @@ body {
 
 .account-class {
     font-size: 16px;
+}
+
+.table-elements {
+    color: var(--color-text);
+    font-size: 21px;
 }
 
 form {

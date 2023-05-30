@@ -23,7 +23,7 @@ def test_index_view(client, leagues_fixture):
 
 # testing status code and context of 'league-details' page - refers to matches
 @pytest.mark.django_db
-def test_league_details_matches_get_method_view(client, leagues_fixture, matches_fixture, teams_fixture):
+def test_league_details_matches_get_method_view(client, leagues_fixture, matches_fixture):
     league_obj = 0  # changeable
     league = leagues_fixture[league_obj]
     url = reverse('league-details', kwargs={'pk': league.id})
@@ -36,7 +36,7 @@ def test_league_details_matches_get_method_view(client, leagues_fixture, matches
 
 # testing status code and context of 'league-details' page - refers to teams
 @pytest.mark.django_db
-def test_league_details_teams_get_method_view(client, leagues_fixture, matches_fixture, teams_fixture):
+def test_league_details_teams_get_method_view(client, leagues_fixture, teams_fixture):
     league_obj = 0  # changeable
     league = leagues_fixture[league_obj]
     url = reverse('league-details', kwargs={'pk': league.id})
@@ -46,6 +46,16 @@ def test_league_details_teams_get_method_view(client, leagues_fixture, matches_f
     for team in filter_teams_by_league(league):
         assert team.teamleague_set.get(league=league) in response.context['teams']
     assert response.context['league'] == leagues_fixture[league_obj]
+
+
+# testing status code and context of 'league-details' page - refers to scorers
+@pytest.mark.django_db
+def test_league_details_scorers_get_method_view(client, leagues_fixture, matches_fixture, match_goals_fixture):
+    league = leagues_fixture[0]
+    url = reverse('league-details', kwargs={'pk': league.id})
+    response = client.get(url)
+    assert response.status_code == 200
+    assert sum(response.context['scorers'].values()) == len(filter_goals_by_league(league))
 
 
 # testing status code and context of 'team-details' page
@@ -64,7 +74,7 @@ def test_team_details_get_method_view(client, teams_fixture, players_fixture, te
 
 # testing post method of adding new comment for a team
 @pytest.mark.django_db
-def test_team_details_post_comment_method_view(client, teams_fixture, user_fixture):
+def test_team_details_post_comment_method_view(client, teams_fixture, user_fixture, team_comments_fixture):
     team_obj = 1  # changeable
     team = teams_fixture[team_obj]
     client.force_login(user_fixture)
@@ -85,7 +95,7 @@ def test_team_details_post_comment_method_view(client, teams_fixture, user_fixtu
 # testing status code and context of 'match-details' page
 @pytest.mark.django_db
 def test_match_details_get_method_view(client, matches_fixture, match_comments_fixture, match_goals_fixture):
-    match_obj = 0  # changeable
+    match_obj = 1  # changeable
     match = matches_fixture[match_obj]
     url = reverse('match-details', kwargs={'pk': match.id})
     response = client.get(url)
@@ -98,7 +108,7 @@ def test_match_details_get_method_view(client, matches_fixture, match_comments_f
 
 # testing post method of adding new comment for a match
 @pytest.mark.django_db
-def test_match_details_post_comment_method_view(client, matches_fixture, user_fixture):
+def test_match_details_post_comment_method_view(client, matches_fixture, user_fixture, match_comments_fixture):
     match_obj = 0  # changeable
     match = matches_fixture[match_obj]
     client.force_login(user_fixture)

@@ -8,23 +8,44 @@
 {% endblock %}
 
 {% block content %}
-    <h3>Actual points</h3>
-    <table>
-        <tr>
-            <th>Team</th>
-            <th>Points</th>
-        </tr>
-        {% for team in teams %}
-            <tr>
-                <td><a class="list-a" href="{% url 'team-details' team.team.id %}">{{ team.team }}</a></td>
-                <td>{{ team.points }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    <h3>Matches</h3>
-    <ul class="list-class">
-        {% for match in matches %}
-            <li><a class="list-a" href="{% url 'match-details' match.id %}">{{ match }}</a></li>
-        {% endfor %}
-    </ul>
+    <div class="flex-container">
+        <div>
+            <h3>Actual points</h3>
+            <table>
+                <tr>
+                    <th>Team</th>
+                    <th>Points</th>
+                </tr>
+                {% for team in teams %}
+                    <tr>
+                        <td><a class="list-a" href="{% url 'team-details' team.team.id %}">{{ team.team }}</a></td>
+                        <td class="table-elements">{{ team.points }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div>
+            <h3>Top scorers</h3>
+            <table>
+                <tr>
+                    <th>Player (team)</th>
+                    <th>Goals</th>
+                </tr>
+                {% for scorer, goals in scorers.items %}
+                    <tr>
+                        <td class="table-elements">{{ scorer }}</td>
+                        <td class="table-elements">{{ goals }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div>
+            <h3>Matches</h3>
+            <ul class="list-class">
+                {% for match in matches %}
+                    <li><a class="list-a" href="{% url 'match-details' match.id %}">{{ match }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
