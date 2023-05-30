@@ -33,7 +33,7 @@
                 </tr>
                 {% for scorer, goals in scorers.items %}
                     <tr>
-                        <td class="table-elements">{{ scorer }}</td>
+                        <td class="table-elements">{{ scorer }} ({{ scorer.team }})</td>
                         <td class="table-elements">{{ goals }}</td>
                     </tr>
                 {% endfor %}
