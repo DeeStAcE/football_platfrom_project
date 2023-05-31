@@ -1,0 +1,31 @@
+{% extends 'football/index.html' %}
+{% block title %}{{ league }}{{ match }}{% endblock %}
+{% block content %}
+    <div class="div-form">
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                {% for goal in goals %}
+                    <div>
+                        <label for="scorer">Scorer:</label>
+                        <select name="scorer_{{ goal }}" id="scorer" required>
+                            {% for player in players %}
+                                <option value="{{ player.id }}">{{ player }} - {{ player.team }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="goal_time">Minute of the match:</label>
+                        <input type="number" name="minute_{{ goal }}" required id="goal_time">
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+{% endblock %}

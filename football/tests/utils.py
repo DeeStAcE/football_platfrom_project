@@ -29,3 +29,9 @@ def filter_comments_by_team(team):
 def filter_goals_by_match(match):
     goals = PlayerGoals.objects.filter(match=match)
     return goals
+
+
+# filter goals by entered league object
+def filter_goals_by_league(league):
+    goals = PlayerGoals.objects.filter(match__league=league)
+    return goals

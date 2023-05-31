@@ -45,15 +45,15 @@ def teams_fixture(leagues_fixture, team_formation_fixture):
     lst = []
     team1 = Team.objects.create(name='team1',
                                 year=1999,
-                                formation=team_formation_fixture,
-                                points=15)
+                                formation=team_formation_fixture)
     team1.league.set(leagues_fixture)
+    team1.teamleague_set.get(league=leagues_fixture[0]).points = 15
     lst.append(team1)
     team2 = Team.objects.create(name='team2',
                                 year=1902,
-                                formation=team_formation_fixture,
-                                points=10)
+                                formation=team_formation_fixture)
     team2.league.set(leagues_fixture)
+    team2.teamleague_set.get(league=leagues_fixture[0]).points = 20
     lst.append(team2)
     return lst
 
@@ -104,8 +104,16 @@ def players_fixture(teams_fixture):
                                      team=teams_fixture[0],
                                      position=Player.Position.STRIKER))
     lst.append(Player.objects.create(first_name='name6',
-                                     last_name='lastname7',
+                                     last_name='lastname6',
                                      team=teams_fixture[0],
+                                     position=Player.Position.STRIKER))
+    lst.append(Player.objects.create(first_name='name7',
+                                     last_name='lastname7',
+                                     team=teams_fixture[1],
+                                     position=Player.Position.MIDFIELDER))
+    lst.append(Player.objects.create(first_name='name8',
+                                     last_name='lastname8',
+                                     team=teams_fixture[1],
                                      position=Player.Position.STRIKER))
     return lst
 
@@ -137,10 +145,16 @@ def team_comments_fixture(teams_fixture, user_fixture):
 @pytest.fixture()
 def match_goals_fixture(matches_fixture, players_fixture):
     lst = []
-    lst.append(PlayerGoals.objects.create(match=matches_fixture[0],
-                                          scorer=players_fixture[0],
-                                          goals=3))
-    lst.append(PlayerGoals.objects.create(match=matches_fixture[0],
-                                          scorer=players_fixture[1],
-                                          goals=2))
+    lst.append(PlayerGoals.objects.create(match=matches_fixture[1],
+                                          scorer=players_fixture[6],
+                                          minute=43))
+    lst.append(PlayerGoals.objects.create(match=matches_fixture[1],
+                                          scorer=players_fixture[6],
+                                          minute=12))
+    lst.append(PlayerGoals.objects.create(match=matches_fixture[1],
+                                          scorer=players_fixture[6],
+                                          minute=13))
+    lst.append(PlayerGoals.objects.create(match=matches_fixture[1],
+                                          scorer=players_fixture[4],
+                                          minute=25))
     return lst

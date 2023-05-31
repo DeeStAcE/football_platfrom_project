@@ -9,7 +9,13 @@ body {
 .body-class {
     background-color: #2D2A32;
     color: var(--color-text);
-    margin: 0;
+    margin-top: 10px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .nav-list {
@@ -64,6 +70,11 @@ body {
     font-size: 16px;
 }
 
+.table-elements {
+    color: var(--color-text);
+    font-size: 21px;
+}
+
 form {
     margin: 20px;
     padding: 20px;
@@ -97,6 +108,13 @@ form button[type="submit"] {
 
 form button[type="submit"]:hover {
     background-color: #9B1C3D;
+}
+
+form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
 }
 
 .form-comment {

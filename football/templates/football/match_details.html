@@ -10,12 +10,12 @@
             <table>
                 <tr>
                     <th>Scorer</th>
-                    <th>Goals</th>
+                    <th>Minute</th>
                 </tr>
                 {% for goal in goals %}
                     <tr>
-                        <td>{{ goal.scorer }}</td>
-                        <td>{{ goal.goals }}</td>
+                        <td>{{ goal.scorer }} ({{ goal.scorer.team }})</td>
+                        <td>{{ goal.minute }}</td>
                     </tr>
                 {% endfor %}
             </table>

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -22,7 +23,6 @@ class Team(models.Model):
     year = models.IntegerField()
     league = models.ManyToManyField(League, through='TeamLeague')
     formation = models.ForeignKey(TeamFormation, on_delete=models.SET_NULL, null=True)
-    points = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -31,6 +31,7 @@ class Team(models.Model):
 class TeamLeague(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     league = models.ForeignKey(League, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.team} -> {self.league}'
@@ -61,7 +62,8 @@ class Match(models.Model):
 class PlayerGoals(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     scorer = models.ForeignKey('Player', on_delete=models.CASCADE)
-    goals = models.SmallIntegerField()
+    goal = models.SmallIntegerField(default=1)
+    minute = models.SmallIntegerField()
 
 
 class Player(models.Model):
