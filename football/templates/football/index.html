@@ -1,35 +1,28 @@
-{% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-    <title>{% block title %}{% endblock title %} | Football App</title>
-</head>
-<body class="body-class">
+{% extends 'football/base.html' %}
+{% block title %}{{ team }}{% endblock %}
+{% block content %}
 
-
-<ul class="nav-list">
-    <h3>Leagues</h3>
-    {% for league in leagues_list %}
-        <li><a class="nav-a" href="{% url 'league-details' league.id %}">{{ league }}</a></li>
-    {% endfor %}
-    {% block add_match %}{% endblock %}
-    {% if not user.is_authenticated %}
-        <li><a class="nav-a account-class" href="{% url 'login' %}">Login</a></li>
-        <li><a class="nav-a account-class" href="{% url 'register' %}">Register</a></li>
-    {% endif %}
     {% if user.is_authenticated %}
-        <li><a class="nav-a account-class" href="{% url 'logout' %}">Logout</a></li>
+        <div class="flex-container">
+            <section>
+                <h2><a class="main-a"
+                       href="{% url 'team-details' favourite_team.fav_team.id %}">{{ favourite_team.fav_team }}</a></h2>
+                <div>
+                    {% for league, matches in leagues.items %}
+                        <ul class="list-class">
+                            <h3>Matches in {{ league }}</h3>
+                            {% if matches %}
+                                {% for match in matches %}
+                                    <li><a class="list-a" href="{% url 'match-details' match.id %}">{{ match }}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                Your team hasn't played any match in this league yet
+                            {% endif %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
     {% endif %}
-</ul>
 
-<div class="div-class">
-    {% block content %}{% endblock content %}
-</div>
-
-</body>
-</html>
+{% endblock %}
