@@ -24,7 +24,8 @@ class IndexView(View):
                 leagues = fav_team.fav_team.league.order_by('name')
                 # dictionary comprehension
                 team_matches_in_league = Q(team_home=fav_team.fav_team) | Q(team_away=fav_team.fav_team)
-                context['leagues'] = {league: league.match_set.filter(team_matches_in_league) for league in leagues}
+                context['leagues'] = {league: league.match_set.filter(team_matches_in_league).order_by('-date')
+                                      for league in leagues}
             except UserRelation.DoesNotExist:
                 fav_team = None
             context['favourite_team'] = fav_team

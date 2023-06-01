@@ -2,7 +2,7 @@
 {% block title %}{{ team }}{% endblock %}
 {% block content %}
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and favourite_team %}
         <div class="flex-container">
             <section>
                 <h2><a class="main-a"

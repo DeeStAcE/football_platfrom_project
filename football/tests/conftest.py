@@ -4,7 +4,7 @@ import pytest
 from django.test import Client
 
 from football.models import *
-from account.tests.conftest import user_fixture
+from account.tests.conftest import *
 
 
 # create fixture for a Client()
