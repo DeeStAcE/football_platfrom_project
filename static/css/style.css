@@ -57,7 +57,6 @@ body {
 
 .list-a {
     color: var(--color-text);
-    padding: 8px 16px;
     text-decoration: none;
     font-size: 21px;
 }
@@ -123,6 +122,26 @@ form select {
     background-color: #2D2A32;
 }
 
+form.mark-favourite {
+    margin: 0;
+    padding: 0;
+    background-color: #2D2A32;
+    border-radius: 0;
+}
+
+button {
+    background-color: var(--color-text);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #9B1C3D;
+}
+
 .div-form {
     width: 50%;
 }
@@ -169,4 +188,14 @@ form textarea {
 .info-section {
     font-size: 18px;
     position: relative;
+}
+
+.main-a {
+    color: var(--color-text);
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.main-a:hover {
+    color: #9B1C3D;
 }

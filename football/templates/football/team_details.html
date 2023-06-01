@@ -1,4 +1,4 @@
-{% extends 'football/index.html' %}
+{% extends 'football/base.html' %}
 {% block title %}{{ team }}{% endblock %}
 {% block content %}
     <section class="info-section">
@@ -7,6 +7,16 @@
             {{ team }} was created in {{ team.year }}<br>
             Their actual formation is {{ team.formation }}
         </p>
+
+        {% if favourite_team.fav_team != team and user.is_authenticated %}
+            <form method="post" class="mark-favourite">
+                {% csrf_token %}
+                <div>
+                    <button type="submit" name="favourite">Mark as favourite</button>
+                </div>
+            </form>
+        {% endif %}
+
         <h3>Squad</h3>
         <p>Coach: {{ coach }}</p>
         <p>Goalkeepers:</p>

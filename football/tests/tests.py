@@ -5,7 +5,7 @@ import pytest
 from django.urls import reverse
 
 from football.forms import AddCommentForm, AddLeagueMatchForm
-from football.models import Comment, TeamLeague
+from football.models import Comment, TeamLeague, UserRelation
 from football.tests.utils import *
 from account.tests.conftest import user_fixture, user_match_perm_fixture
 
@@ -19,6 +19,18 @@ def test_index_view(client, leagues_fixture):
     assert response.context['leagues_list'].count() == len(leagues_fixture)
     for league in leagues_fixture:
         assert league in response.context['leagues_list']
+
+
+# testing status code for user with favourite team
+@pytest.mark.django_db
+def test_index_view(client, user_with_fav_team, leagues_fixture):
+    url = reverse('index')
+    client.force_login(user_with_fav_team)
+    response = client.get(url)
+    assert response.status_code == 200
+    fav_team = user_with_fav_team.userrelation_set.first().fav_team
+    assert len(response.context['leagues'].keys()) == len(fav_team.teamleague_set.all())
+    assert response.context['favourite_team'].fav_team == fav_team
 
 
 # testing status code and context of 'league-details' page - refers to matches
@@ -72,6 +84,18 @@ def test_team_details_get_method_view(client, teams_fixture, players_fixture, te
     assert response.context['comments'].count() == len(filter_comments_by_team(team))
 
 
+# testing status code for user with favourite team
+@pytest.mark.django_db
+def test_team_details_with_favourite_team_get_method_view(client, user_with_fav_team, teams_fixture, players_fixture,
+                                                          team_comments_fixture):
+    team = teams_fixture[0]
+    client.force_login(user_with_fav_team)
+    url = reverse('team-details', kwargs={'pk': team.id})
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['favourite_team'].fav_team == user_with_fav_team.userrelation_set.first().fav_team
+
+
 # testing post method of adding new comment for a team
 @pytest.mark.django_db
 def test_team_details_post_comment_method_view(client, teams_fixture, user_fixture, team_comments_fixture):
@@ -81,15 +105,33 @@ def test_team_details_post_comment_method_view(client, teams_fixture, user_fixtu
     url = reverse('team-details', kwargs={'pk': team.id})
 
     comment_data = {
+        'add_comment': '',
         'team': team,
         'user': user_fixture,
-        'content': 'example content text team'
+        'content': 'example content text team',
     }
 
     response = client.post(url, comment_data)
     assert response.status_code == 302
     assert response.url.startswith(url)
     Comment.objects.get(content=comment_data['content'])
+
+
+# testing post method of with marking team as favourite
+@pytest.mark.django_db
+def test_team_details_with_favourite_team_post_method_view(client, teams_fixture, user_with_fav_team):
+    team_obj = 0  # changeable
+    team = teams_fixture[team_obj]
+    client.force_login(user_with_fav_team)
+    url = reverse('team-details', kwargs={'pk': team.id})
+
+    comment_data = {
+        'favourite': '',
+    }
+
+    response = client.post(url, comment_data)
+    assert response.status_code == 302
+    assert UserRelation.objects.get(user=user_with_fav_team).fav_team == team
 
 
 # testing status code and context of 'match-details' page

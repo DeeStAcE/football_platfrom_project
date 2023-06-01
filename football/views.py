@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Q
@@ -14,6 +15,21 @@ class IndexView(View):
     # render main page with menu bar
     def get(self, request):
         context = {}
+        user = request.user
+
+        # try finding existing relation and assigning it to new variable
+        if user.is_authenticated:
+            try:
+                fav_team = UserRelation.objects.get(user=user)
+                leagues = fav_team.fav_team.league.order_by('name')
+                # dictionary comprehension
+                team_matches_in_league = Q(team_home=fav_team.fav_team) | Q(team_away=fav_team.fav_team)
+                context['leagues'] = {league: league.match_set.filter(team_matches_in_league).order_by('-date')
+                                      for league in leagues}
+            except UserRelation.DoesNotExist:
+                fav_team = None
+            context['favourite_team'] = fav_team
+
         return render(request, 'football/index.html', context=context)
 
 
@@ -32,7 +48,6 @@ class LeagueDetailsView(View):
             scorers[goal.scorer] = scorers.get(goal.scorer, 0) + 1
         # sorting goals in descending order
         scorers = dict(sorted(scorers.items(), key=lambda item: item[1], reverse=True))
-        print(sum(scorers.values()))
 
         context = {
             'league': league,
@@ -48,6 +63,7 @@ class TeamDetailsView(View):
     # render page with details (info, coach and squad) of chosen team
     def get(self, request, pk):
         team = Team.objects.get(pk=pk)
+        user = request.user
 
         # sorting players by position
         players = Player.objects.filter(team=team)
@@ -70,19 +86,42 @@ class TeamDetailsView(View):
             'midfielders': midfielders,
             'strikers': strikers,
         }
+
+        # try finding existing relation and assigning it to new variable
+        if user.is_authenticated:
+            try:
+                fav_team = UserRelation.objects.get(user=user)
+            except UserRelation.DoesNotExist:
+                fav_team = None
+            context['favourite_team'] = fav_team
+
         return render(request, 'football/team_details.html', context=context)
 
     # get cleaned data from valid form and create object Comment
     def post(self, request, pk):
         team = Team.objects.get(pk=pk)
-        form = AddCommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.team = team
-            comment.save()
+        user = request.user
+
+        if 'add_comment' in request.POST:
+            form = AddCommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.user = user
+                comment.team = team
+                comment.save()
+                return redirect('team-details', pk)
             return redirect('team-details', pk)
-        return redirect('team-details', pk)
+
+        elif 'favourite' in request.POST:
+            # try finding existing relation and setting new favourite team, otherwise create new UserRelation object
+            if user.is_authenticated:
+                try:
+                    user_relation = UserRelation.objects.get(user=user)
+                    user_relation.fav_team = team
+                    user_relation.save()
+                except UserRelation.DoesNotExist:
+                    UserRelation.objects.create(user=user, fav_team=team)
+            return redirect('team-details', pk)
 
 
 class MatchDetailsView(View):

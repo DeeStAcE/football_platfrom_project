@@ -89,3 +89,9 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     content = models.TextField(null=False)
+
+
+class UserRelation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # favourite team
+    fav_team = models.ForeignKey(Team, on_delete=models.CASCADE)
