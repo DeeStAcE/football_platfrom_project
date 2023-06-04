@@ -1,4 +1,4 @@
-# Football Platform Project
+# [Football Platform Project](https://deestace-football-platform.azurewebsites.net/)
 
 A web application based on Django. App allows to check football matches of specific leagues as well as teams that play
 in those leagues. Web allows to create new users and log in to existing ones. Logged users are able to select theirs
