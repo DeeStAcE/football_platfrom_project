@@ -1,58 +1,63 @@
 {% extends 'football/base.html' %}
 {% block title %}{{ team }}{% endblock %}
 {% block content %}
-    <section class="info-section">
-        <h2>{{ team }}</h2>
-        <p>
-            {{ team }} was created in {{ team.year }}<br>
-            Their actual formation is {{ team.formation }}
-        </p>
+    <div class="flex-container">
+        <div>
+            <section class="info-section">
+                <h2>{{ team }}</h2>
+                <p>
+                    {{ team }} was created in {{ team.year }}<br>
+                    Their actual formation is {{ team.formation }}
+                </p>
 
-        {% if favourite_team.fav_team != team and user.is_authenticated %}
-            <form method="post" class="mark-favourite">
-                {% csrf_token %}
-                <div>
-                    <button type="submit" name="favourite">Mark as favourite</button>
-                </div>
-            </form>
-        {% endif %}
+                {% if favourite_team.fav_team != team and user.is_authenticated %}
+                    <form method="post" class="mark-favourite">
+                        {% csrf_token %}
+                        <div>
+                            <button type="submit" name="favourite">Mark as favourite</button>
+                        </div>
+                    </form>
+                {% endif %}
 
-        <h3>Squad</h3>
-        <p>Coach: {{ coach }}</p>
-        <p>Goalkeepers:</p>
-        <p>
-        <ul class="list-class">
-            {% for player in goalkeepers %}
-                <li>{{ player }}</li>
-            {% endfor %}
-        </ul>
-        </p>
-        <p>Defenders:</p>
-        <p>
-        <ul class="list-class">
-            {% for player in defenders %}
-                <li>{{ player }}</li>
-            {% endfor %}
-        </ul>
-        </p>
-        <p>Midfielders:</p>
-        <p>
-        <ul class="list-class">
-            {% for player in midfielders %}
-                <li>{{ player }}</li>
-            {% endfor %}
-        </ul>
-        </p>
-        <p>Strikers:</p>
-        <p>
-        <ul class="list-class">
-            {% for player in strikers %}
-                <li>{{ player }}</li>
-            {% endfor %}
-        </ul>
-        </p>
-    </section>
+                <h3>Squad</h3>
+                <p>Coach: {{ coach }}</p>
+                <p>Goalkeepers:</p>
+                <p>
+                <ul class="list-class">
+                    {% for player in goalkeepers %}
+                        <li>{{ player }}</li>
+                    {% endfor %}
+                </ul>
+                </p>
+                <p>Defenders:</p>
+                <p>
+                <ul class="list-class">
+                    {% for player in defenders %}
+                        <li>{{ player }}</li>
+                    {% endfor %}
+                </ul>
+                </p>
+                <p>Midfielders:</p>
+                <p>
+                <ul class="list-class">
+                    {% for player in midfielders %}
+                        <li>{{ player }}</li>
+                    {% endfor %}
+                </ul>
+                </p>
+                <p>Strikers:</p>
+                <p>
+                <ul class="list-class">
+                    {% for player in strikers %}
+                        <li>{{ player }}</li>
+                    {% endfor %}
+                </ul>
+                </p>
 
-    {% include 'football/comments_with_form.html' %}
+            </section>
+        </div>
 
+        {% include 'football/comments_with_form.html' %}
+
+    </div>
 {% endblock %}

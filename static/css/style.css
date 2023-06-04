@@ -16,6 +16,7 @@ body {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+
 }
 
 .nav-list {
@@ -147,9 +148,7 @@ button:hover {
 }
 
 .div-form-comment {
-    position: fixed;
     width: 600px;
-    display: flow;
 }
 
 form textarea {
@@ -158,12 +157,11 @@ form textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-bottom: 10px;
+    color: var(--color-text);
+    background-color: #2D2A32;
 }
 
 .div-comments {
-    position: fixed;
-    left: 54%;
-    height: 300px;
     overflow: auto;
 }
 
@@ -187,15 +185,17 @@ form textarea {
 
 .info-section {
     font-size: 18px;
-    position: relative;
 }
 
 .main-a {
     color: var(--color-text);
-    padding: 8px 16px;
     text-decoration: none;
 }
 
 .main-a:hover {
     color: #9B1C3D;
+}
+
+.small-text {
+    font-size: 12px;
 }

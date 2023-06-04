@@ -1,27 +1,29 @@
-{% if user.is_authenticated %}
-    <div class="div-form-comment">
-        <form method="post" class="form-comment">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div>
-                <button type="submit" name="add_comment">Add comment</button>
-            </div>
-        </form>
-    </div>
-{% endif %}
-
-<div class="div-comments">
-    {% for comment in comments %}
-        <div class="comment">
-            <p class="p-text-user">Comment by {{ comment.user }}</p>
-            <section>
-                <p class="p-text-content">
-                    {{ comment.content }}
-                </p>
-                <div class="comment-date">
-                    {{ comment.date }}
+<div>
+    {% if user.is_authenticated %}
+        <div class="div-form-comment">
+            <form method="post" class="form-comment">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div>
+                    <button type="submit" name="add_comment">Add comment</button>
                 </div>
-            </section>
+            </form>
         </div>
-    {% endfor %}
+    {% endif %}
+
+    <div class="div-comments">
+        {% for comment in comments %}
+            <div class="comment">
+                <p class="p-text-user">Comment by {{ comment.user }}</p>
+                <section>
+                    <p class="p-text-content">
+                        {{ comment.content }}
+                    </p>
+                    <div class="comment-date">
+                        {{ comment.date }}
+                    </div>
+                </section>
+            </div>
+        {% endfor %}
+    </div>
 </div>

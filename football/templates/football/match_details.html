@@ -1,27 +1,28 @@
 {% extends 'football/base.html' %}
 {% block title %}{{ match.team_home }}-{{ match.team_away }}{% endblock %}
 {% block content %}
-    <section class="info-section">
-        <h2>{{ match }}</h2>
-        <p>Referee of the match: {{ match.referee }}</p>
-        <p>The match was taken on: {{ match.date }} in {{ match.league }}</p>
+    <div class="flex-container">
+        <section class="info-section">
+            <h2>{{ match }}</h2>
+            <p>Referee of the match: {{ match.referee }}</p>
+            <p>The match was taken on: {{ match.date }} in {{ match.league }}</p>
 
-        {% if goals %}
-            <table>
-                <tr>
-                    <th>Scorer</th>
-                    <th>Minute</th>
-                </tr>
-                {% for goal in goals %}
+            {% if goals %}
+                <table>
                     <tr>
-                        <td>{{ goal.scorer }} ({{ goal.scorer.team }})</td>
-                        <td>{{ goal.minute }}</td>
+                        <th>Scorer</th>
+                        <th>Minute</th>
                     </tr>
-                {% endfor %}
-            </table>
-        {% endif %}
+                    {% for goal in goals %}
+                        <tr>
+                            <td>{{ goal.scorer }} ({{ goal.scorer.team }})</td>
+                            <td>{{ goal.minute }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
 
-    </section>
-    {% include 'football/comments_with_form.html' %}
-
+        </section>
+        {% include 'football/comments_with_form.html' %}
+    </div>
 {% endblock %}
