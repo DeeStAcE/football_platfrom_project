@@ -10,5 +10,5 @@ The app was created with Django and PostgreSQL. The code includes tests created 
 ## Demo account
 
 Account with permission of adding a new match (for presentation purposes): <br/>
-username: <br/>
-password:
+username: testuser<br/>
+password: test1234
