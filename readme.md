@@ -13,5 +13,5 @@ Account with permission of adding a new match (for presentation purposes): <br/>
 username: testuser<br/>
 password: test1234
 
-It may take a while to load, due to inactivity of the website. 
+It may take a while to load, due to inactivity of the website. <br/>
 The deployment was done using free Microsoft Azure services.
